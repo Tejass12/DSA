@@ -1,0 +1,186 @@
+#include<iostream>
+using namespace std;
+struct BSTnode
+{
+ int data;
+ BSTnode *left=NULL;
+ BSTnode *right=NULL;
+ };
+ class BST
+ {
+  int n;
+  int x;
+  int flag;
+  public:
+	BSTnode *root;
+	BST()
+	{
+ 	root=NULL;
+	}
+	BSTnode *GetNewNode(int in_data)
+	{
+ 	BSTnode * ptr = new BSTnode();
+ 	ptr->data = in_data;
+ 	ptr->left = NULL;
+ 	ptr->right = NULL;
+ 	return ptr;
+	}
+	BSTnode *insert(BSTnode *temp,int in_data)
+	{
+ 	if(temp==NULL)
+ 	{
+  	temp=GetNewNode(in_data);
+ 	}
+ 	else if(temp->data > in_data)
+ 	{
+  	temp->left=insert(temp->left,in_data);
+ 	}
+ 	else
+ 	{
+  	temp->right=insert(temp->right,in_data);
+ 	}
+ 	return temp;
+  }
+  void input()
+  {
+	cout<<"ENTER THE NUMBER OF ELEMENTS IN BINARY SEARCH TREE=";
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+  	cout<<"NUMBER=";
+  	cin>>x;
+  	root=insert(root,x);
+	}
+  }
+ int search(BSTnode *temp ,int in_data)
+ {
+  if( temp != NULL)
+  {
+   if(temp->data == in_data)
+   {
+	cout<<":-- RECORD FOUND --:"<<endl;
+	return 1;
+   }
+   else if(in_data < temp->data)
+   {
+	this->search(temp->left, in_data);
+   }
+   else if(in_data > temp->data)
+   {
+	this->search(temp->right , in_data);
+   }
+  }
+  else
+  {
+	return 0;
+  }
+ }
+ void minvalue(BSTnode *temp)
+ {
+  while(temp->left != NULL)
+  {
+   temp = temp->left;
+  }
+  cout<<"MINIMUM VALUE = "<<temp->data<<endl;
+ }
+   
+ void mirror(BSTnode *temp)
+ {
+  if(temp == NULL)
+  {
+   return;
+  }
+  else
+  {
+   BSTnode *ptr;
+   mirror(temp->left);
+   mirror(temp->right);
+   ptr = temp->left;
+   temp->left = temp->right;
+   temp->right = ptr;
+  }
+ }
+  void display()
+ {
+  cout<<endl<<"--- INORDER TRAVERSAL ---"<<endl;
+  inorder(root);
+  cout<<endl;
+  cout<<endl<<"--- POSTORDER TRAVERSAL ---"<<endl;
+  postorder(root);
+  cout<<endl;
+  cout<<endl<<"--- PREORDER TRAVERSAL ---"<<endl;
+  preorder(root);
+  cout<<endl;
+ 
+ }
+ 
+ void inorder(BSTnode *temp)
+ {
+  if(temp != NULL)
+  {
+   inorder(temp->left);
+   cout<<temp->data<<"  ";
+   inorder(temp->right);
+  }
+ }
+ 
+ void postorder(BSTnode *temp)
+ {
+  if(temp != NULL)
+  {
+   postorder(temp->left);
+   postorder(temp->right);
+   cout<<temp->data<<" ";
+  }
+ }
+ 
+ void preorder(BSTnode *temp)
+ {
+  if(temp != NULL)
+  {
+   cout<<temp->data<<" ";
+   preorder(temp->left);
+   preorder(temp->right);
+  }
+ }
+ 
+ int depth(BSTnode *temp)
+ {
+  if(temp == NULL)
+   return 0;
+  return (max((depth(temp->left)),(depth(temp->right))) +1);  
+ }
+};
+
+ 
+int main()
+{
+ BST obj;
+ obj.input();
+ obj.display();
+ cout<<"Enter element to found ="<<endl;
+ int a=0,x;
+ cin>>x;
+ a=obj.search(obj.root,x);
+ if(a==0)
+ {
+ cout<<"ELEMENT NOT FOUND"<<endl;
+ }
+ else
+ {
+  cout<<"ELEMENT FOUND"<<endl;
+ }
+  cout<<a<<endl;
+ cout<<endl;
+ obj.minvalue(obj.root);
+ cout<<"MIRROR IMAGE OF TREE AND IT'S"<<endl;
+ obj.mirror(obj.root);
+ cout<<"INORDER IS="<<endl;
+ obj.inorder(obj.root);
+ cout<<endl;
+ cout<<"DEPTH IS"<<endl;
+ cout<<obj.depth(obj.root)<<endl;
+ return 0;
+ }
+ 
+ 
